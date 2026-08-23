@@ -33,6 +33,35 @@ agent-handoff validate handoff.json
 
 Use `uv sync` and prefix commands with `uv run` if you prefer uv. A complete valid record is available at `examples/coding-handoff.json`.
 
+## How it works
+
+```mermaid
+flowchart TD
+    O[Current owner] --> B[Handoff builder]
+    B --> R[Portable JSON record]
+    subgraph CTX[Context blocks]
+        S[Scope + objective]
+        A[Artifacts]
+        D[Decisions + assumptions]
+        K[Risks + next actions]
+        E[Verification evidence]
+    end
+    S --> R
+    A --> R
+    D --> R
+    K --> R
+    E --> R
+    R --> V[Schema + lifecycle validator]
+    V -->|valid and ready| N[Next owner]
+    N -->|accept + perform work| R
+    R --> Q{Reviewer}
+    Q -->|evidence sufficient| C[Completed]
+    Q -->|gaps found + reason| T[Returned]
+    T --> O
+```
+
+The JSON record carries context and ownership across tools. Validation controls status changes, while authorization to use tools remains outside the handoff.
+
 ## Lifecycle
 
 ```mermaid
