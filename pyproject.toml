@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-handoff-kit"
+version = "0.1.0"
+description = "A practical toolkit for reliable handoffs between AI agents, people, and automation tools."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "mahsan07" }]
+dependencies = []
+
+[project.scripts]
+agent-handoff = "agent_handoff_kit.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+agent_handoff_kit = ["handoff.schema.json"]

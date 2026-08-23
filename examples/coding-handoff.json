@@ -1,0 +1,21 @@
+{
+  "artifacts": [{"description": "Implementation commit", "kind": "commit", "uri": "abc123"}],
+  "assumptions": ["Python 3.11 is available"],
+  "created_at": "2026-01-01T00:00:00+00:00",
+  "decisions": ["Use the standard library only"],
+  "events": [{"actor": "planner", "at": "2026-01-01T00:00:00+00:00", "event": "created"}],
+  "id": "example-001",
+  "next_actions": ["Run the test suite and review the diff"],
+  "next_owner": "reviewer-agent",
+  "objective": "Deliver and verify the filesystem task lifecycle",
+  "owner": "planner",
+  "return_reason": null,
+  "reviewer": "human",
+  "risks": ["Concurrent writers need atomic transitions"],
+  "schema_version": "1.0",
+  "scope": ["src/", "tests/"],
+  "status": "ready",
+  "title": "Review the task bus MVP",
+  "updated_at": "2026-01-01T00:00:00+00:00",
+  "verification": []
+}

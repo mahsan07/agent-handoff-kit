@@ -1,6 +1,6 @@
 # Roadmap
 
-## Phase 1: contract and local demo
+## Phase 1: runnable local MVP (complete)
 
 - Handoff JSON schema
 - Status transitions
@@ -9,10 +9,8 @@
 - Owner and reviewer fields
 - Validator CLI
 
-## Later phases
+## Candidate next phases
 
-- JSON Schema
-- Reference file implementation
 - SQLite adapter
 - Agent SDK examples
 - Visualization of handoff chains

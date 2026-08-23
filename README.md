@@ -1,34 +1,66 @@
 # Agent Handoff Kit
 
-Small, durable handoff records for multi-agent workflows.
+![Five interoperable AI infrastructure modules](docs/portfolio-hero.png)
 
-## Why this exists
+Small, durable handoff records for work that crosses AI agents, people, and automation tools.
 
-Agent-to-agent collaboration breaks when the next worker cannot tell what was done, what remains, which assumptions are valid, or what actions are approved.
+Agent collaboration often loses the most important context: what changed, which assumptions remain valid, what is still in scope, who owns the next action, and what evidence proves completion. Agent Handoff Kit makes that transfer an explicit, vendor-neutral JSON record with a validated lifecycle.
 
-## What it provides
+## Who it is for
 
-Provide a simple handoff schema, lifecycle, and validation rules that work across vendors and storage backends.
+- Teams moving work between planning, implementation, and review agents
+- Developers integrating multiple agent vendors or storage backends
+- Humans who need to accept, return, or verify machine-generated work
 
-## Intended users
+## Run it
 
-Builders creating multi-step or multi-agent workflows that need reliable continuity.
+Requires Python 3.11+ and has no runtime dependencies.
 
-## Example
+```bash
+git clone https://github.com/mahsan07/agent-handoff-kit.git
+cd agent-handoff-kit
+python -m pip install -e .
+agent-handoff create handoff.json \
+  --title "Review task bus" \
+  --objective "Run tests and verify atomic claims" \
+  --owner planner --next-owner reviewer-agent --reviewer human \
+  --scope src --scope tests
+agent-handoff add handoff.json next_actions "Run the full test suite"
+agent-handoff add-artifact handoff.json --kind commit --uri abc123 --description "Implementation"
+agent-handoff transition handoff.json ready --actor planner
+agent-handoff validate handoff.json
+```
 
-Pass a coding task from planner to implementer to reviewer with exact files, tests, risks, and next action.
+Use `uv sync` and prefix commands with `uv run` if you prefer uv. A complete valid record is available at `examples/coding-handoff.json`.
 
-## Current status
+## Lifecycle
 
-Public scaffold. The repository defines the product contract and MVP boundaries before implementation begins.
+```mermaid
+stateDiagram-v2
+    [*] --> draft
+    draft --> ready: scope + next action recorded
+    ready --> accepted: next owner accepts
+    ready --> returned: reviewer returns with reason
+    accepted --> completed: verification evidence recorded
+    accepted --> returned: reviewer returns with reason
+    returned --> ready: gaps resolved
+```
 
-## Documentation
+The record separates artifacts, decisions, assumptions, risks, next actions, and verification evidence. A handoff conveys context; it never grants tool authorization.
 
-- [Product definition](docs/PRODUCT.md)
-- [Architecture](docs/ARCHITECTURE.md)
-- [Safety](docs/SAFETY.md)
-- [Roadmap](docs/ROADMAP.md)
+## What is different
 
-## License
+General multi-agent frameworks pass free-form messages inside one runtime. Agent Handoff Kit makes continuity portable outside any runtime: the same record can live in Git, a ticket, a database, or a filesystem queue. Its lifecycle rejects silent completion and requires evidence before `completed`.
 
-MIT. See [LICENSE](LICENSE).
+The MVP ships a JSON Schema, standard-library validator, CLI, Python API, example record, and transition tests. It does not orchestrate workers or execute tools.
+
+## Verify it
+
+```bash
+python -m unittest discover -s tests -v
+agent-handoff validate examples/coding-handoff.json
+```
+
+See [architecture](docs/ARCHITECTURE.md), [portfolio ecosystem](docs/ECOSYSTEM.md), [product definition](docs/PRODUCT.md), [safety boundaries](docs/SAFETY.md), [roadmap](docs/ROADMAP.md), and [status](STATUS.md).
+
+MIT licensed.

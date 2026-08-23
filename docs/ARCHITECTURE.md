@@ -1,21 +1,28 @@
 # Architecture
 
-## Design summary
+Agent Handoff Kit is a protocol layer, not an orchestrator. `handoff.schema.json` defines the portable record. The Python package adds lifecycle rules that JSON Schema alone cannot express, such as evidence required for completion.
 
-The kit is a protocol layer rather than a full orchestrator. A handoff can live in files, a database, or an external work tracker while retaining the same schema.
+```mermaid
+flowchart LR
+    P[Planner] -->|draft + scope| H[Handoff record]
+    H -->|ready| I[Implementer]
+    I -->|accept| H
+    I -->|artifacts + decisions| H
+    H -->|verification request| R[Reviewer]
+    R -->|approve with evidence| C[completed]
+    R -->|return with reason| H
+```
 
-## Main components
+## Record sections
 
-- Create a handoff
-- Attach scope and artifacts
-- Record decisions and assumptions
-- Transfer ownership
-- Verify completion or return with a failure reason
+| Section | Purpose |
+| --- | --- |
+| `scope` | Files, systems, or questions included |
+| `artifacts` | Portable file, URL, commit, or note references |
+| `decisions` | Choices already made and their durable outcome |
+| `assumptions` | Claims the next owner should verify if material |
+| `risks` | Known hazards and uncertainty |
+| `next_actions` | Concrete work required from the next owner |
+| `verification` | Evidence required before completion |
 
-## Initial implementation boundary
-
-Start with a local, inspectable implementation. Prefer plain files, small typed schemas, and deterministic commands before introducing a database, hosted service, or provider-specific adapter.
-
-## Verification
-
-Every MVP feature should have at least one fixture, one failure case, and one visible verification artifact. Keep inferred behavior separate from measured behavior.
+Persistence is deliberately external. The reference CLI reads and atomically rewrites one JSON file; applications may store the same schema elsewhere.
