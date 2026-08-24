@@ -2,6 +2,10 @@
 
 ## Handoff flow
 
+![Agent Handoff Kit handoff flow](../assets/architecture-flow.svg)
+
+### Mermaid source
+
 ```mermaid
 flowchart TD
   Create["Create handoff"] --> Scope["Attach scope and artifacts"]
@@ -12,6 +16,10 @@ flowchart TD
 ```
 
 ## Handoff sequence
+
+![Agent Handoff Kit handoff sequence](../assets/sequence-flow.svg)
+
+### Mermaid source
 
 ```mermaid
 sequenceDiagram
