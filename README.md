@@ -18,6 +18,12 @@ Builders creating multi-step or multi-agent workflows that need reliable continu
 
 Pass a coding task from planner to implementer to reviewer with exact files, tests, risks, and next action.
 
+## Visual overview
+
+![Agent Handoff Kit architecture flow](assets/architecture-flow.svg)
+
+[Open the architecture and sequence diagrams](docs/DIAGRAMS.md).
+
 ## Current status
 
 Public scaffold. The repository defines the product contract and MVP boundaries before implementation begins.
